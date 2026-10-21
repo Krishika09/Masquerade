@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Not a PE file{% endblock %}
+{% block content %}
+<div class="rhead">
+  <div style="min-width:0">
+    <div class="eyebrow">Masquerade triage report · {{ r.id }}</div>
+    <h1>{{ r.file.name }}</h1>
+  </div>
+  <div class="actions"><a class="btn primary" href="{{ url_for('main.index') }}">Analyze another file</a></div>
+</div>
+
+<div class="banner error"><span class="tag">NOT A VALID PE</span>
+  <div><strong>The file was rejected at the extraction stage.</strong> {{ r.error }}
+    Masquerade only triages Windows Portable Executable images (EXE, DLL, SYS, SCR...). The file was hashed but not parsed further.</div></div>
+
+<div class="grid">
+  <div class="card c6">
+    <div class="card-h"><h3>File identity</h3><span class="step">01 · INGEST</span></div>
+    <div class="card-b">
+      <dl class="kvl">
+        <dt>Filename</dt><dd>{{ r.file.name }}</dd>
+        <dt>Size</dt><dd>{{ r.file.size|num }} bytes ({{ r.file.size_human }})</dd>
+        <dt>Detected content</dt><dd>{{ r.file.magic }}</dd>
+        <dt>PE validity</dt><dd><span class="sev HIGH">INVALID</span></dd>
+        <dt>SHA-256</dt><dd>{{ r.file.sha256 }}</dd>
+        <dt>SHA-1</dt><dd>{{ r.file.sha1 }}</dd>
+        <dt>MD5</dt><dd>{{ r.file.md5 }}</dd>
+        <dt>Entropy</dt><dd>{{ r.file.entropy }} bits/byte</dd>
+        <dt>Analyzed</dt><dd>{{ r.analyzed_at }}</dd>
+      </dl>
+    </div>
+  </div>
+  <div class="card c6">
+    <div class="card-h"><h3>What happened</h3></div>
+    <div class="card-b">
+      <div class="pipe" style="grid-template-columns: 1fr 1fr; border:1px solid var(--line); border-radius:8px; margin-bottom:14px">
+        {% for s in r.stages %}<div class="st"><div class="n">0{{ loop.index }}</div><div class="t">{{ s.stage }}</div><div class="d">{{ s.detail }}</div></div>{% endfor %}
+      </div>
+      <p class="dim">A Windows PE file starts with the two bytes <code>MZ</code> followed, at the offset stored in
+        <code>e_lfanew</code>, by the signature <code>PE\0\0</code>. This file does not have a parsable PE structure, so
+        sections, imports and contradictions cannot be evaluated and no risk score is produced.</p>
+      <p class="dim">If you expected this to be an executable that is <em>disguised</em> as another type, note that the
+        reverse case (an executable named like a document) is detected under contradiction category A - Identity.</p>
+    </div>
+  </div>
+</div>
+{% endblock %}

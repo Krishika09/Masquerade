@@ -1,0 +1,883 @@
+{
+  "id": "20261021-d85cdefd",
+  "valid_pe": true,
+  "source": "demo",
+  "demo": true,
+  "synthetic_fixture": false,
+  "analyzed_at": "2026-10-21 08:08:07 UTC",
+  "file": {
+    "name": "Q3_financial_report.pdf.exe",
+    "size": 187904,
+    "size_human": "183.5 KB",
+    "extension": ".exe",
+    "inner_extension": ".pdf",
+    "magic": "DOS/PE executable (MZ)",
+    "entropy": 7.6127,
+    "md5": "6981593b5944646dce80a2bcd7094425",
+    "sha1": "30650a174f70ba194eb336334ec46e3eb1b109e7",
+    "sha256": "af5e40d445476c02df5f886dc511ab909b776062fb08527140672cf08ceefcc4"
+  },
+  "features": {
+    "schema": "masquerade.features/1",
+    "valid_pe": true,
+    "demo": true,
+    "file": {
+      "name": "Q3_financial_report.pdf.exe",
+      "size": 187904,
+      "size_human": "183.5 KB",
+      "extension": ".exe",
+      "inner_extension": ".pdf",
+      "magic": "DOS/PE executable (MZ)",
+      "entropy": 7.6127,
+      "md5": "6981593b5944646dce80a2bcd7094425",
+      "sha1": "30650a174f70ba194eb336334ec46e3eb1b109e7",
+      "sha256": "af5e40d445476c02df5f886dc511ab909b776062fb08527140672cf08ceefcc4"
+    },
+    "pe": {
+      "type": "EXE",
+      "is_dll": false,
+      "magic": "PE32",
+      "bits": 32,
+      "arch": "x86",
+      "machine": "Intel 386 (x86)",
+      "subsystem": "Windows GUI",
+      "timestamp": 1714521600,
+      "timestamp_utc": "2024-05-01 00:00:00 UTC",
+      "entry_point": 154160,
+      "entry_point_hex": "0x00025A30",
+      "image_base": 4194304,
+      "image_base_hex": "0x400000",
+      "base_of_code": 4096,
+      "size_of_image": 184320,
+      "expected_size_of_image": 184320,
+      "size_of_headers": 1024,
+      "size_of_code": 131584,
+      "section_alignment": 4096,
+      "file_alignment": 512,
+      "checksum": 238066,
+      "checksum_calculated": 190916,
+      "linker_version": "6.0",
+      "os_version": "4.0",
+      "number_of_sections": 5,
+      "characteristics": [
+        "EXECUTABLE_IMAGE",
+        "32BIT_MACHINE",
+        "RELOCS_STRIPPED"
+      ],
+      "dll_characteristics": [],
+      "has_signature": false,
+      "signature_size": 0,
+      "is_dotnet": false,
+      "has_relocations": false,
+      "has_tls": false,
+      "tls_callbacks": 0,
+      "has_debug": false,
+      "debug_types": [],
+      "pdb_path": null,
+      "has_rich_header": false,
+      "imphash": "cadd5a60a94f24648917308a222833a0",
+      "entry_section": ".xyz",
+      "entry_section_index": 3
+    },
+    "sections": [
+      {
+        "index": 0,
+        "name": ".text",
+        "virtual_address": 4096,
+        "virtual_address_hex": "0x00001000",
+        "virtual_size": 107504,
+        "raw_size": 107520,
+        "raw_pointer": 1024,
+        "entropy": 7.9412,
+        "characteristics": "0x60000020",
+        "flags": [
+          "CNT_CODE",
+          "MEM_EXECUTE",
+          "MEM_READ"
+        ],
+        "readable": true,
+        "writable": false,
+        "executable": true,
+        "perms": "R-X",
+        "is_code": true,
+        "vsize_raw_ratio": 1.0,
+        "contains_entry_point": false
+      },
+      {
+        "index": 1,
+        "name": ".rdata",
+        "virtual_address": 114688,
+        "virtual_address_hex": "0x0001C000",
+        "virtual_size": 11280,
+        "raw_size": 11776,
+        "raw_pointer": 108544,
+        "entropy": 4.118,
+        "characteristics": "0x40000040",
+        "flags": [
+          "CNT_INITIALIZED_DATA",
+          "MEM_READ"
+        ],
+        "readable": true,
+        "writable": false,
+        "executable": false,
+        "perms": "R--",
+        "is_code": false,
+        "vsize_raw_ratio": 0.96,
+        "contains_entry_point": false
+      },
+      {
+        "index": 2,
+        "name": ".data",
+        "virtual_address": 126976,
+        "virtual_address_hex": "0x0001F000",
+        "virtual_size": 23040,
+        "raw_size": 1536,
+        "raw_pointer": 120320,
+        "entropy": 2.0174,
+        "characteristics": "0xC0000040",
+        "flags": [
+          "CNT_INITIALIZED_DATA",
+          "MEM_READ",
+          "MEM_WRITE"
+        ],
+        "readable": true,
+        "writable": true,
+        "executable": false,
+        "perms": "RW-",
+        "is_code": false,
+        "vsize_raw_ratio": 15.0,
+        "contains_entry_point": false
+      },
+      {
+        "index": 3,
+        "name": ".xyz",
+        "virtual_address": 151552,
+        "virtual_address_hex": "0x00025000",
+        "virtual_size": 24576,
+        "raw_size": 24064,
+        "raw_pointer": 121856,
+        "entropy": 7.6233,
+        "characteristics": "0xE0000060",
+        "flags": [
+          "CNT_CODE",
+          "CNT_INITIALIZED_DATA",
+          "MEM_EXECUTE",
+          "MEM_READ",
+          "MEM_WRITE"
+        ],
+        "readable": true,
+        "writable": true,
+        "executable": true,
+        "perms": "RWX",
+        "is_code": true,
+        "vsize_raw_ratio": 1.02,
+        "contains_entry_point": true
+      },
+      {
+        "index": 4,
+        "name": ".rsrc",
+        "virtual_address": 176128,
+        "virtual_address_hex": "0x0002B000",
+        "virtual_size": 7304,
+        "raw_size": 7680,
+        "raw_pointer": 145920,
+        "entropy": 5.0931,
+        "characteristics": "0x40000040",
+        "flags": [
+          "CNT_INITIALIZED_DATA",
+          "MEM_READ"
+        ],
+        "readable": true,
+        "writable": false,
+        "executable": false,
+        "perms": "R--",
+        "is_code": false,
+        "vsize_raw_ratio": 0.95,
+        "contains_entry_point": false
+      }
+    ],
+    "entropy": {
+      "overall": 7.6127,
+      "max_section": 7.9412,
+      "max_section_name": ".text",
+      "max_non_resource": 7.9412,
+      "mean_section": 5.3586,
+      "max_executable": 7.9412,
+      "high_entropy_sections": [
+        ".text",
+        ".xyz"
+      ]
+    },
+    "imports": {
+      "dll_count": 2,
+      "import_count": 8,
+      "by_ordinal": 0,
+      "dlls": [
+        {
+          "name": "KERNEL32.dll",
+          "count": 7,
+          "delay_load": false,
+          "functions": [
+            "VirtualAlloc",
+            "WriteProcessMemory",
+            "CreateRemoteThread",
+            "OpenProcess",
+            "LoadLibraryA",
+            "GetProcAddress",
+            "ExitProcess"
+          ]
+        },
+        {
+          "name": "USER32.dll",
+          "count": 1,
+          "delay_load": false,
+          "functions": [
+            "MessageBoxW"
+          ]
+        }
+      ],
+      "normalized_apis": [
+        "CreateRemoteThread",
+        "ExitProcess",
+        "GetProcAddress",
+        "LoadLibrary",
+        "MessageBox",
+        "OpenProcess",
+        "VirtualAlloc",
+        "WriteProcessMemory"
+      ],
+      "suspicious": [
+        {
+          "api": "VirtualAlloc",
+          "normalized": "VirtualAlloc",
+          "dll": "KERNEL32.dll",
+          "tag": "Memory / injection",
+          "context_only": false
+        },
+        {
+          "api": "WriteProcessMemory",
+          "normalized": "WriteProcessMemory",
+          "dll": "KERNEL32.dll",
+          "tag": "Memory / injection",
+          "context_only": false
+        },
+        {
+          "api": "CreateRemoteThread",
+          "normalized": "CreateRemoteThread",
+          "dll": "KERNEL32.dll",
+          "tag": "Memory / injection",
+          "context_only": false
+        },
+        {
+          "api": "OpenProcess",
+          "normalized": "OpenProcess",
+          "dll": "KERNEL32.dll",
+          "tag": "Memory / injection",
+          "context_only": false
+        },
+        {
+          "api": "LoadLibraryA",
+          "normalized": "LoadLibrary",
+          "dll": "KERNEL32.dll",
+          "tag": "Dynamic resolution",
+          "context_only": false
+        },
+        {
+          "api": "GetProcAddress",
+          "normalized": "GetProcAddress",
+          "dll": "KERNEL32.dll",
+          "tag": "Dynamic resolution",
+          "context_only": false
+        }
+      ],
+      "suspicious_count": 6
+    },
+    "exports": {
+      "count": 0,
+      "names": [],
+      "dll_name": null
+    },
+    "strings": {
+      "total": 41,
+      "ascii": 33,
+      "unicode": 8,
+      "density_per_kb": 0.224,
+      "meaningful": 12,
+      "meaningful_per_kb": 0.065,
+      "suspicious": [
+        {
+          "type": "URL",
+          "value": "http://cdn-update.example/api/v2/check"
+        },
+        {
+          "type": "IPv4 address",
+          "value": "203.0.113.47"
+        },
+        {
+          "type": "Hard-coded user agent",
+          "value": "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)"
+        },
+        {
+          "type": "Staging path",
+          "value": "%APPDATA%\\Microsoft\\svc_host.exe"
+        }
+      ],
+      "suspicious_count": 4,
+      "sample": [
+        "KERNEL32.dll",
+        "USER32.dll",
+        "VirtualAlloc",
+        "WriteProcessMemory",
+        "CreateRemoteThread",
+        "http://cdn-update.example/api/v2/check",
+        "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)",
+        "%APPDATA%\\Microsoft\\svc_host.exe",
+        "203.0.113.47",
+        "Adobe Systems"
+      ]
+    },
+    "overlay": {
+      "present": false,
+      "offset": null,
+      "size": 0,
+      "ratio": 0.0,
+      "entropy": 0.0,
+      "is_signature": false
+    },
+    "version_info": {
+      "CompanyName": "Adobe Systems Incorporated",
+      "FileDescription": "Adobe Reader",
+      "OriginalFilename": "stub32.exe",
+      "FileVersion": "11.0.23.22"
+    },
+    "resources": {
+      "count": 3,
+      "types": [
+        "ICON",
+        "GROUP_ICON",
+        "VERSION"
+      ]
+    },
+    "parser_warnings": [
+      "Suspicious flags set for section 3. Both IMAGE_SCN_MEM_WRITE and IMAGE_SCN_MEM_EXECUTE are set. This might indicate a packed executable."
+    ]
+  },
+  "findings": [
+    {
+      "name": "RWX section",
+      "category": "Section",
+      "category_code": "B",
+      "bucket": "section",
+      "severity": "HIGH",
+      "score": 20.0,
+      "evidence": {
+        "sections": ".xyz (RWX, 0xE0000060)",
+        "rwx_count": 1,
+        "wx_count": 1,
+        "entropy": ".xyz=7.62"
+      },
+      "explanation": "1 section(s) are mapped both writable and executable: .xyz.",
+      "why": "Modern compilers separate code (R-X) from data (RW-). A section that can be written and then executed is what a self-unpacking stub or injected shellcode needs, and it defeats W^X / DEP protections.",
+      "attack": "T1027.002 Software Packing",
+      "id": "F01",
+      "applied_points": 20.0
+    },
+    {
+      "name": "High-entropy section",
+      "category": "Entropy-Content",
+      "category_code": "C",
+      "bucket": "high_entropy",
+      "severity": "HIGH",
+      "score": 15.0,
+      "evidence": {
+        "sections": ".text=7.94, .xyz=7.62",
+        "max_entropy": 7.94,
+        "threshold": 7.0,
+        "executable_high_entropy": 2
+      },
+      "explanation": ".text has entropy 7.94 bits/byte (maximum is 8.0).",
+      "why": "Compiled x86 code typically sits around 5.5-6.8 bits/byte. Values above ~7.0 mean the bytes are close to random, i.e. compressed or encrypted. Entropy alone is not proof - installers and media are also high-entropy - so it is weighed with the content checks below.",
+      "attack": null,
+      "id": "F02",
+      "applied_points": 15.0
+    },
+    {
+      "name": "Possible packing / obfuscation",
+      "category": "Entropy-Content",
+      "category_code": "C",
+      "bucket": "entropy_content",
+      "severity": "HIGH",
+      "score": 15.0,
+      "evidence": {
+        "max_entropy": 7.94,
+        "imports": 8,
+        "dlls": 2,
+        "strings": 12,
+        "strings_per_kb": 0.065
+      },
+      "explanation": "High section entropy combined with sparse imports and very few readable strings may indicate packing or obfuscation.",
+      "why": "A normal program with this much content would import dozens of APIs and contain many readable strings. When entropy is high but imports and strings are scarce, the real content is hidden from static view and recovered only at run time.",
+      "attack": "T1027 Obfuscated Files or Information",
+      "id": "F03",
+      "applied_points": 15.0
+    },
+    {
+      "name": "Process-injection-like API combination",
+      "category": "API",
+      "category_code": "D",
+      "bucket": "api",
+      "severity": "HIGH",
+      "score": 15.0,
+      "evidence": {
+        "allocate": "VirtualAlloc",
+        "write": "WriteProcessMemory",
+        "execute": "CreateRemoteThread",
+        "open_target": "OpenProcess"
+      },
+      "explanation": "The import table contains every step of classic remote process injection: allocate memory, write into it, and start a thread there.",
+      "why": "Each API alone is common. Together - VirtualAlloc + WriteProcessMemory + CreateRemoteThread + OpenProcess - they form the allocate/write/execute chain used to run code inside another process. Investigate; debuggers and some security tools use it legitimately.",
+      "attack": "T1055 Process Injection",
+      "id": "F04",
+      "applied_points": 15.0
+    },
+    {
+      "name": "Deceptive double extension",
+      "category": "Identity",
+      "category_code": "A",
+      "bucket": "identity",
+      "severity": "HIGH",
+      "score": 10.0,
+      "evidence": {
+        "filename": "Q3_financial_report.pdf.exe",
+        "claimed_type": ".pdf",
+        "actual_extension": ".exe",
+        "actual_content": "PE32 EXE (x86)",
+        "padding_spaces": 0
+      },
+      "explanation": "The name claims to be a '.pdf' file, but the real extension and the content are a Windows EXE.",
+      "why": "Windows hides known extensions by default, so 'report.pdf.exe' is shown as 'report.pdf'. The apparent identity and the actual PE structure disagree.",
+      "attack": "T1036.007 Double File Extension",
+      "id": "F05",
+      "applied_points": 10.0
+    },
+    {
+      "name": "Virtual size far exceeds raw size",
+      "category": "Section",
+      "category_code": "B",
+      "bucket": "section",
+      "severity": "MEDIUM",
+      "score": 12.0,
+      "evidence": {
+        "section": ".data",
+        "virtual_size": 23040,
+        "raw_size": 1536,
+        "ratio": "15.0x"
+      },
+      "explanation": ".data grows 15.0x when loaded into memory.",
+      "why": "Large in-memory growth with little file data indicates content is generated or decompressed at run time rather than shipped statically.",
+      "attack": null,
+      "id": "F06",
+      "applied_points": 0.0
+    },
+    {
+      "name": "Minimal imports with dynamic API resolution",
+      "category": "API",
+      "category_code": "D",
+      "bucket": "api",
+      "severity": "MEDIUM",
+      "score": 9.0,
+      "evidence": {
+        "resolvers": "LoadLibrary, GetProcAddress",
+        "total_imports": 8,
+        "memory_apis": "VirtualAlloc"
+      },
+      "explanation": "Only 8 APIs are imported, including the pair needed to resolve any other API at run time.",
+      "why": "LoadLibrary + GetProcAddress let a program hide which APIs it really uses. With a small import table and memory-permission APIs, the visible imports are likely a loader, not the real functionality.",
+      "attack": "T1106 Native API",
+      "id": "F07",
+      "applied_points": 0.0
+    },
+    {
+      "name": "Unusual entry-point section",
+      "category": "Structural",
+      "category_code": "E",
+      "bucket": "structural",
+      "severity": "MEDIUM",
+      "score": 6.0,
+      "evidence": {
+        "AddressOfEntryPoint": "0x00025A30",
+        "section": ".xyz",
+        "section_index": "4 of 5",
+        "perms": "RWX",
+        "entropy": 7.6233
+      },
+      "explanation": "Execution begins in '.xyz' instead of the main code section.",
+      "why": "Compilers place the entry point in .text. An entry point in the last or a writable section is typical of a packer/crypter stub that was appended to the original program.",
+      "attack": null,
+      "id": "F08",
+      "applied_points": 6.0
+    },
+    {
+      "name": "Non-standard section names",
+      "category": "Section",
+      "category_code": "B",
+      "bucket": "section",
+      "severity": "LOW",
+      "score": 6.0,
+      "evidence": {
+        "sections": ".xyz",
+        "count": 1
+      },
+      "explanation": "Section names do not match those produced by common compilers/linkers.",
+      "why": "Custom names are allowed by the format, but compilers emit a predictable set (.text, .rdata, .data...). Unusual names often come from packers or crypters.",
+      "attack": null,
+      "id": "F09",
+      "applied_points": 0.0
+    },
+    {
+      "name": "Filename differs from embedded OriginalFilename",
+      "category": "Identity",
+      "category_code": "A",
+      "bucket": "identity",
+      "severity": "LOW",
+      "score": 3.0,
+      "evidence": {
+        "filename": "Q3_financial_report.pdf.exe",
+        "OriginalFilename": "stub32.exe",
+        "CompanyName": "Adobe Systems Incorporated"
+      },
+      "explanation": "The version resource says the file was built as a different program.",
+      "why": "Renaming alone is not malicious (downloads are renamed often), but combined with other contradictions it suggests the file is presenting a false identity.",
+      "attack": null,
+      "id": "F10",
+      "applied_points": 0.0
+    },
+    {
+      "name": "Header checksum mismatch",
+      "category": "Structural",
+      "category_code": "E",
+      "bucket": "structural",
+      "severity": "LOW",
+      "score": 3.0,
+      "evidence": {
+        "declared": "0x3a1f2",
+        "calculated": "0x2e9c4"
+      },
+      "explanation": "The PE checksum is set but does not match the file contents.",
+      "why": "A non-zero checksum is written by the linker; a mismatch means the file was modified after linking (patched, infected or appended to).",
+      "attack": null,
+      "id": "F11",
+      "applied_points": 0.8
+    }
+  ],
+  "context_notes": [
+    "ASLR (DYNAMIC_BASE) is not enabled - common for older or hand-built binaries.",
+    "DEP (NX_COMPAT) is not declared."
+  ],
+  "risk": {
+    "score": 96,
+    "level": "CRITICAL",
+    "points": 81.8,
+    "max_points": 85,
+    "breakdown": [
+      {
+        "bucket": "identity",
+        "label": "Identity mismatch",
+        "category": "Identity",
+        "weight": 10,
+        "findings": [
+          "F05",
+          "F10"
+        ],
+        "points": 10,
+        "uncapped": 10.8,
+        "capped": true,
+        "formula": "F05 HIGH x1.0 + F10 LOW x0.3 x0.25"
+      },
+      {
+        "bucket": "section",
+        "label": "RWX / section anomaly",
+        "category": "Section",
+        "weight": 20,
+        "findings": [
+          "F01",
+          "F06",
+          "F09"
+        ],
+        "points": 20,
+        "uncapped": 24.5,
+        "capped": true,
+        "formula": "F01 HIGH x1.0 + F06 MEDIUM x0.6 x0.25 + F09 LOW x0.3 x0.25"
+      },
+      {
+        "bucket": "high_entropy",
+        "label": "High entropy",
+        "category": "Entropy-Content",
+        "weight": 15,
+        "findings": [
+          "F02"
+        ],
+        "points": 15.0,
+        "uncapped": 15.0,
+        "capped": false,
+        "formula": "F02 HIGH x1.0"
+      },
+      {
+        "bucket": "entropy_content",
+        "label": "Entropy-content contradiction",
+        "category": "Entropy-Content",
+        "weight": 15,
+        "findings": [
+          "F03"
+        ],
+        "points": 15.0,
+        "uncapped": 15.0,
+        "capped": false,
+        "formula": "F03 HIGH x1.0"
+      },
+      {
+        "bucket": "api",
+        "label": "API combination",
+        "category": "API",
+        "weight": 15,
+        "findings": [
+          "F04",
+          "F07"
+        ],
+        "points": 15,
+        "uncapped": 17.2,
+        "capped": true,
+        "formula": "F04 HIGH x1.0 + F07 MEDIUM x0.6 x0.25"
+      },
+      {
+        "bucket": "structural",
+        "label": "Structural anomaly",
+        "category": "Structural",
+        "weight": 10,
+        "findings": [
+          "F08",
+          "F11"
+        ],
+        "points": 6.8,
+        "uncapped": 6.8,
+        "capped": false,
+        "formula": "F08 MEDIUM x0.6 + F11 LOW x0.3 x0.25"
+      }
+    ],
+    "severity_counts": {
+      "HIGH": 5,
+      "MEDIUM": 3,
+      "LOW": 3
+    },
+    "categories_hit": [
+      "API",
+      "Entropy-Content",
+      "Identity",
+      "Section",
+      "Structural"
+    ],
+    "formula": "round(100 x 81.8 / 85) = 96",
+    "levels": [
+      {
+        "label": "LOW",
+        "range": "0-29"
+      },
+      {
+        "label": "MEDIUM",
+        "range": "30-59"
+      },
+      {
+        "label": "HIGH",
+        "range": "60-79"
+      },
+      {
+        "label": "CRITICAL",
+        "range": "80-100"
+      }
+    ]
+  },
+  "ml": {
+    "raw_score": 0.9152,
+    "calibrated_probability": 0.986,
+    "isotonic_probability": 1.0,
+    "reported_percent": 99,
+    "method": "sigmoid (Platt scaling)",
+    "verdict": "likely malicious",
+    "vector": {
+      "file_size_log10": 5.2739,
+      "num_sections": 5,
+      "max_entropy": 7.9412,
+      "mean_entropy": 5.3586,
+      "overall_entropy": 7.6127,
+      "imports_log": 2.1972,
+      "dll_count": 2,
+      "strings_per_kb_log": 0.2021,
+      "exports_log": 0.0,
+      "has_signature": 0,
+      "has_resources": 1,
+      "has_debug": 0,
+      "is_dll": 0,
+      "overlay_ratio": 0.0,
+      "suspicious_api_count": 6,
+      "c_identity": 1.0,
+      "c_section": 1.0,
+      "c_high_entropy": 1.0,
+      "c_entropy_content": 1.0,
+      "c_api": 1.0,
+      "c_structural": 0.6,
+      "rwx_count": 1,
+      "ep_unusual": 1,
+      "n_findings": 11
+    },
+    "contributions": [
+      {
+        "feature": "has_signature",
+        "label": "Has signature directory",
+        "value": 0,
+        "benign_median": 1.0,
+        "delta": 0.0761
+      },
+      {
+        "feature": "c_api",
+        "label": "Contradiction: API",
+        "value": 1.0,
+        "benign_median": 0.0,
+        "delta": 0.0649
+      },
+      {
+        "feature": "file_size_log10",
+        "label": "File size (log10 bytes)",
+        "value": 5.2739,
+        "benign_median": 5.928,
+        "delta": 0.0284
+      },
+      {
+        "feature": "c_identity",
+        "label": "Contradiction: identity",
+        "value": 1.0,
+        "benign_median": 0.0,
+        "delta": 0.0266
+      },
+      {
+        "feature": "dll_count",
+        "label": "Imported DLLs",
+        "value": 2,
+        "benign_median": 8.0,
+        "delta": 0.0181
+      },
+      {
+        "feature": "max_entropy",
+        "label": "Max section entropy",
+        "value": 7.9412,
+        "benign_median": 6.549,
+        "delta": -0.0162
+      },
+      {
+        "feature": "overall_entropy",
+        "label": "Whole-file entropy",
+        "value": 7.6127,
+        "benign_median": 6.133,
+        "delta": -0.0141
+      },
+      {
+        "feature": "suspicious_api_count",
+        "label": "Suspicious API count",
+        "value": 6,
+        "benign_median": 2.0,
+        "delta": 0.0125
+      }
+    ],
+    "model_trained_at": "2026-10-07 18:07 UTC",
+    "demo_model": true
+  },
+  "iocs": {
+    "hashes": {
+      "SHA-256": "af5e40d445476c02df5f886dc511ab909b776062fb08527140672cf08ceefcc4",
+      "SHA-1": "30650a174f70ba194eb336334ec46e3eb1b109e7",
+      "MD5": "6981593b5944646dce80a2bcd7094425",
+      "Imphash": "cadd5a60a94f24648917308a222833a0"
+    },
+    "network": [
+      "203.0.113.47",
+      "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)",
+      "http://cdn-update.example/api/v2/check"
+    ],
+    "host": [
+      "%APPDATA%\\Microsoft\\svc_host.exe"
+    ],
+    "commands": [],
+    "other": [],
+    "apis": [
+      {
+        "api": "VirtualAlloc",
+        "normalized": "VirtualAlloc",
+        "dll": "KERNEL32.dll",
+        "tag": "Memory / injection",
+        "context_only": false
+      },
+      {
+        "api": "WriteProcessMemory",
+        "normalized": "WriteProcessMemory",
+        "dll": "KERNEL32.dll",
+        "tag": "Memory / injection",
+        "context_only": false
+      },
+      {
+        "api": "CreateRemoteThread",
+        "normalized": "CreateRemoteThread",
+        "dll": "KERNEL32.dll",
+        "tag": "Memory / injection",
+        "context_only": false
+      },
+      {
+        "api": "OpenProcess",
+        "normalized": "OpenProcess",
+        "dll": "KERNEL32.dll",
+        "tag": "Memory / injection",
+        "context_only": false
+      },
+      {
+        "api": "LoadLibraryA",
+        "normalized": "LoadLibrary",
+        "dll": "KERNEL32.dll",
+        "tag": "Dynamic resolution",
+        "context_only": false
+      },
+      {
+        "api": "GetProcAddress",
+        "normalized": "GetProcAddress",
+        "dll": "KERNEL32.dll",
+        "tag": "Dynamic resolution",
+        "context_only": false
+      }
+    ]
+  },
+  "summary": "11 contradiction(s) across 5 of 5 categories (API, Entropy-Content, Identity, Section, Structural). Strongest evidence: RWX section [HIGH]. Rule-based risk is CRITICAL (96/100) and the calibrated model estimates a 99% malware probability - the two layers agree.",
+  "stages": [
+    {
+      "stage": "Ingest",
+      "detail": "Illustrative feature record (no file)"
+    },
+    {
+      "stage": "Extract",
+      "detail": "5 sections, 8 imports, 41 strings"
+    },
+    {
+      "stage": "Contradict",
+      "detail": "11 findings from 5 rule categories"
+    },
+    {
+      "stage": "Score",
+      "detail": "81.8 / 85 pts -> 96"
+    },
+    {
+      "stage": "Calibrate",
+      "detail": "RF 0.92 -> calibrated 0.99"
+    },
+    {
+      "stage": "Report",
+      "detail": "Risk CRITICAL, P(malware) 99%"
+    }
+  ],
+  "elapsed_ms": 169
+}

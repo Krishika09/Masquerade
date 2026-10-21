@@ -1,0 +1,6 @@
+Flask>=3.0
+pefile>=2023.2.7
+numpy>=1.26
+pandas>=2.1
+scikit-learn>=1.4
+joblib>=1.3

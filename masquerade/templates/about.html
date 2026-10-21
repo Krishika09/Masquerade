@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block title %}Methodology{% endblock %}
+{% block content %}
+<div class="prose">
+  <div class="rhead"><div>
+    <div class="eyebrow">Methodology</div>
+    <h1>How Masquerade reaches a verdict</h1>
+  </div></div>
+
+  <p>Malware imitates legitimate files, but attackers control file names, section labels and import tables
+    independently of the code. A disguised file therefore shows <em>inconsistencies in its own structure</em>.
+    Masquerade asks whether a PE file's properties agree with each other and with its claimed identity, instead of
+    judging each feature on its own - and it shows every verdict as named, scored evidence an analyst can verify.</p>
+
+  <div class="banner info" style="margin-top:16px"><span class="tag">SAFETY</span>
+    <div><strong>Static analysis only.</strong> Uploaded files are read as bytes and parsed with <code>pefile</code>.
+      They are never executed, loaded as libraries or passed to a subprocess, and are stored with a neutral
+      <code>.sample</code> suffix. Dynamic validation (Ghidra, Procmon, Wireshark in an isolated VM) is a separate,
+      manual step outside this tool.</div></div>
+
+  <h2>Pipeline</h2>
+  <div class="card" style="margin-top:10px">
+    <div class="pipe">
+      <div class="st"><div class="n">01</div><div class="t">Ingest</div><div class="d">Hash (SHA-256, SHA-1, MD5), size, magic bytes</div></div>
+      <div class="st"><div class="n">02</div><div class="t">Extract</div><div class="d">Headers, sections, entropy, imports, strings, overlay, version info</div></div>
+      <div class="st"><div class="n">03</div><div class="t">Contradict</div><div class="d">Rules in five categories</div></div>
+      <div class="st"><div class="n">04</div><div class="t">Score</div><div class="d">Weighted evidence → 0–100</div></div>
+      <div class="st"><div class="n">05</div><div class="t">Calibrate</div><div class="d">Random Forest + Platt scaling</div></div>
+      <div class="st"><div class="n">06</div><div class="t">Report</div><div class="d">Risk, evidence, IoCs, JSON</div></div>
+    </div>
+  </div>
+
+  <h2>Five contradiction categories</h2>
+  <div class="card"><table class="tbl">
+    <thead><tr><th>Category</th><th>Examples implemented</th><th>Why it contradicts</th></tr></thead>
+    <tbody>
+      <tr><td><span class="cat"><b>A</b>Identity</span></td><td>Double extension (<code>report.pdf.exe</code>), document extension on PE content, RLO character, DLL/EXE mismatch, system-binary name without signature, OriginalFilename mismatch</td><td>Looks like a document, is an executable</td></tr>
+      <tr><td><span class="cat"><b>B</b>Section</span></td><td>RWX / writable+executable sections, executable section with no raw data, virtual ≫ raw size, packer section names, data sections marked executable</td><td>Normal compilers rarely build them</td></tr>
+      <tr><td><span class="cat"><b>C</b>Entropy-content</span></td><td>High-entropy section; high entropy + sparse imports + few strings; no import table; high-entropy overlay</td><td>Content hidden from static view</td></tr>
+      <tr><td><span class="cat"><b>D</b>API</span></td><td>Allocate + write + remote-thread injection chain, process hollowing, minimal imports + dynamic resolution, keylogging, download-and-execute, ransomware and persistence combinations</td><td>Behaviourally relevant combination - one API alone is never scored</td></tr>
+      <tr><td><span class="cat"><b>E</b>Structural</span></td><td>Entry point outside sections / in non-executable, last or writable section; implausible timestamp; SizeOfImage or checksum mismatch; overlapping sections; TLS callbacks</td><td>Header and sections disagree</td></tr>
+    </tbody>
+  </table></div>
+  <p>Every finding carries the same record: <code>name</code>, <code>category</code>, <code>severity</code> (LOW / MEDIUM / HIGH),
+    <code>score</code>, raw <code>evidence</code>, a plain-language <code>explanation</code> and a "why" rationale, plus a MITRE ATT&amp;CK
+    reference where one applies. The same record drives the score, the report and later validation.</p>
+
+  <h2>Explainable 0–100 risk score</h2>
+  <div class="card"><table class="tbl">
+    <thead><tr><th>Evidence bucket</th><th>Category</th><th class="right">Initial weight</th></tr></thead>
+    <tbody>
+      {% for k, b in buckets.items() %}<tr><td>{{ b.label }}</td><td>{{ b.category }}</td><td class="mono right">{{ b.weight }}</td></tr>{% endfor %}
+      <tr><td><b>Maximum</b></td><td></td><td class="mono right"><b>{{ buckets.values()|sum(attribute='weight') }}</b></td></tr>
+    </tbody>
+  </table></div>
+  <p>Severity scales a finding's weight: HIGH × 1.0, MEDIUM × 0.6, LOW × 0.3. In each bucket the strongest finding counts in
+    full and every additional finding adds 25 % of its value, capped at the bucket weight so repeated evidence of the
+    same kind cannot dominate. The final score is <code>round(100 × Σ points / {{ buckets.values()|sum(attribute='weight') }})</code>.
+    Levels: <span class="sev lvl LOW">LOW 0–29</span> <span class="sev lvl MEDIUM">MEDIUM 30–59</span>
+    <span class="sev lvl HIGH">HIGH 60–79</span> <span class="sev lvl CRITICAL">CRITICAL 80–100</span>.</p>
+  <p>By design a single strong signal (e.g. high entropy alone) keeps a file LOW or MEDIUM; the score climbs only when
+    independent categories of contradiction agree. <strong>The weights are initial values intended to be tuned on a
+    validation set - they are not claimed to be optimal.</strong></p>
+
+  <h2>Machine learning and calibration</h2>
+  <p>A Random Forest is trained on 24 features: 15 conventional PE features (size, entropy, import/string counts, signature,
+    overlay…) and 9 contradiction features (per-category severity, RWX count, unusual entry point, number of findings). The
+    forest is fit on the 70 % training split; <code>CalibratedClassifierCV</code> with Platt (sigmoid) scaling is fit on the 15 %
+    validation split; Brier score, expected calibration error and a reliability diagram are measured on the untouched 15 % test split.</p>
+  <p>A raw forest score is the share of tree votes, not a probability. The report therefore shows both, and only the calibrated
+    value is reported as a malware probability. Rule evidence and the model run side by side; the model does not override
+    the explainable score.</p>
+  <p><strong>Demo data disclosure:</strong> this prototype ships without a malware corpus. The model is trained on a reproducible
+    synthetic feature table (see <a href="{{ url_for('main.model') }}">Model &amp; Calibration</a>). Its metrics demonstrate the
+    workflow only and do not represent real-world detection performance.</p>
+
+  <h2>Limitations</h2>
+  <ul>
+    <li>Static analysis cannot see run-time behaviour; heavily packed files reveal little until unpacked.</li>
+    <li>Rules are heuristics: installers, game protectors, JIT runtimes and security tools can trigger them.</li>
+    <li>Signature presence is detected but not cryptographically verified.</li>
+    <li>The bundled ML model is trained on synthetic data; weights and thresholds need tuning on a real, de-duplicated corpus.</li>
+  </ul>
+
+  <h2>References</h2>
+  <ol style="font-size:13px">
+    <li>H. S. Anderson and P. Roth, "EMBER: An Open Dataset for Training Static PE Malware Machine Learning Models," arXiv:1804.04637, 2018.</li>
+    <li>R. Lyda and J. Hamrock, "Using Entropy Analysis to Find Encrypted and Packed Malware," IEEE Security &amp; Privacy, 5(2), 2007.</li>
+    <li>C. Guo, G. Pleiss, Y. Sun and K. Q. Weinberger, "On Calibration of Modern Neural Networks," ICML, 2017.</li>
+    <li>MITRE ATT&amp;CK, "T1036: Masquerading."</li>
+    <li>J. Platt, "Probabilistic Outputs for Support Vector Machines and Comparisons to Regularized Likelihood Methods," 1999.</li>
+    <li>Microsoft, "PE Format," learn.microsoft.com.</li>
+  </ol>
+</div>
+{% endblock %}

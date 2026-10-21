@@ -1,0 +1,829 @@
+{
+  "id": "20261007-fe7d7c41",
+  "valid_pe": true,
+  "source": "benign-reference",
+  "demo": false,
+  "synthetic_fixture": false,
+  "analyzed_at": "2026-10-07 18:07:27 UTC",
+  "file": {
+    "name": "python.exe",
+    "size": 106328,
+    "size_human": "103.8 KB",
+    "extension": ".exe",
+    "inner_extension": "",
+    "magic": "DOS/PE executable (MZ)",
+    "entropy": 6.3659,
+    "md5": "ea9864af41a0640d7c5e01932c585a2e",
+    "sha1": "588164bd719f6ff5daa7ddeda50a0a2beee49378",
+    "sha256": "467014615a5255aca450ae88100dd2caf887da87657f00e3c2171ec44a685aec"
+  },
+  "features": {
+    "schema": "masquerade.features/1",
+    "valid_pe": true,
+    "file": {
+      "name": "python.exe",
+      "size": 106328,
+      "size_human": "103.8 KB",
+      "extension": ".exe",
+      "inner_extension": "",
+      "magic": "DOS/PE executable (MZ)",
+      "entropy": 6.3659,
+      "md5": "ea9864af41a0640d7c5e01932c585a2e",
+      "sha1": "588164bd719f6ff5daa7ddeda50a0a2beee49378",
+      "sha256": "467014615a5255aca450ae88100dd2caf887da87657f00e3c2171ec44a685aec"
+    },
+    "pe": {
+      "type": "EXE",
+      "is_dll": false,
+      "magic": "PE32+",
+      "bits": 64,
+      "arch": "x64",
+      "machine": "AMD64 (x86-64)",
+      "subsystem": "Windows Console",
+      "timestamp": 1759832415,
+      "timestamp_utc": "2025-10-07 10:20:15 UTC",
+      "entry_point": 4768,
+      "entry_point_hex": "0x000012A0",
+      "image_base": 5368709120,
+      "image_base_hex": "0x140000000",
+      "base_of_code": 4096,
+      "size_of_image": 106496,
+      "expected_size_of_image": 106496,
+      "size_of_headers": 1024,
+      "size_of_code": 4096,
+      "section_alignment": 4096,
+      "file_alignment": 512,
+      "checksum": 159970,
+      "checksum_calculated": 159970,
+      "linker_version": "14.44",
+      "os_version": "6.0",
+      "number_of_sections": 6,
+      "characteristics": [
+        "EXECUTABLE_IMAGE",
+        "LARGE_ADDRESS_AWARE"
+      ],
+      "dll_characteristics": [
+        "HIGH_ENTROPY_VA",
+        "DYNAMIC_BASE (ASLR)",
+        "NX_COMPAT (DEP)",
+        "TERMINAL_SERVER_AWARE"
+      ],
+      "has_signature": true,
+      "signature_size": 14168,
+      "is_dotnet": false,
+      "has_relocations": true,
+      "has_tls": false,
+      "tls_callbacks": 0,
+      "has_debug": true,
+      "debug_types": [
+        "CODEVIEW",
+        "VC_FEATURE",
+        "POGO"
+      ],
+      "pdb_path": "D:\\a\\1\\b\\bin\\amd64\\python.pdb",
+      "has_rich_header": true,
+      "imphash": "a0fad384db41cc8b86fa51996bb88ac7",
+      "entry_section": ".text",
+      "entry_section_index": 0
+    },
+    "sections": [
+      {
+        "index": 0,
+        "name": ".text",
+        "virtual_address": 4096,
+        "virtual_address_hex": "0x00001000",
+        "virtual_size": 3628,
+        "raw_size": 4096,
+        "raw_pointer": 1024,
+        "entropy": 5.557,
+        "characteristics": "0x60000020",
+        "flags": [
+          "CNT_CODE",
+          "MEM_EXECUTE",
+          "MEM_READ"
+        ],
+        "readable": true,
+        "writable": false,
+        "executable": true,
+        "perms": "R-X",
+        "is_code": true,
+        "vsize_raw_ratio": 0.89,
+        "contains_entry_point": true
+      },
+      {
+        "index": 1,
+        "name": ".rdata",
+        "virtual_address": 8192,
+        "virtual_address_hex": "0x00002000",
+        "virtual_size": 3942,
+        "raw_size": 4096,
+        "raw_pointer": 5120,
+        "entropy": 4.1414,
+        "characteristics": "0x40000040",
+        "flags": [
+          "CNT_INITIALIZED_DATA",
+          "MEM_READ"
+        ],
+        "readable": true,
+        "writable": false,
+        "executable": false,
+        "perms": "R--",
+        "is_code": false,
+        "vsize_raw_ratio": 0.96,
+        "contains_entry_point": false
+      },
+      {
+        "index": 2,
+        "name": ".data",
+        "virtual_address": 12288,
+        "virtual_address_hex": "0x00003000",
+        "virtual_size": 1664,
+        "raw_size": 512,
+        "raw_pointer": 9216,
+        "entropy": 0.5325,
+        "characteristics": "0xC0000040",
+        "flags": [
+          "CNT_INITIALIZED_DATA",
+          "MEM_READ",
+          "MEM_WRITE"
+        ],
+        "readable": true,
+        "writable": true,
+        "executable": false,
+        "perms": "RW-",
+        "is_code": false,
+        "vsize_raw_ratio": 3.25,
+        "contains_entry_point": false
+      },
+      {
+        "index": 3,
+        "name": ".pdata",
+        "virtual_address": 16384,
+        "virtual_address_hex": "0x00004000",
+        "virtual_size": 348,
+        "raw_size": 512,
+        "raw_pointer": 9728,
+        "entropy": 2.8024,
+        "characteristics": "0x40000040",
+        "flags": [
+          "CNT_INITIALIZED_DATA",
+          "MEM_READ"
+        ],
+        "readable": true,
+        "writable": false,
+        "executable": false,
+        "perms": "R--",
+        "is_code": false,
+        "vsize_raw_ratio": 0.68,
+        "contains_entry_point": false
+      },
+      {
+        "index": 4,
+        "name": ".rsrc",
+        "virtual_address": 20480,
+        "virtual_address_hex": "0x00005000",
+        "virtual_size": 80928,
+        "raw_size": 81408,
+        "raw_pointer": 10240,
+        "entropy": 6.1511,
+        "characteristics": "0x40000040",
+        "flags": [
+          "CNT_INITIALIZED_DATA",
+          "MEM_READ"
+        ],
+        "readable": true,
+        "writable": false,
+        "executable": false,
+        "perms": "R--",
+        "is_code": false,
+        "vsize_raw_ratio": 0.99,
+        "contains_entry_point": false
+      },
+      {
+        "index": 5,
+        "name": ".reloc",
+        "virtual_address": 102400,
+        "virtual_address_hex": "0x00019000",
+        "virtual_size": 48,
+        "raw_size": 512,
+        "raw_pointer": 91648,
+        "entropy": 0.7123,
+        "characteristics": "0x42000040",
+        "flags": [
+          "CNT_INITIALIZED_DATA",
+          "MEM_DISCARDABLE",
+          "MEM_READ"
+        ],
+        "readable": true,
+        "writable": false,
+        "executable": false,
+        "perms": "R--",
+        "is_code": false,
+        "vsize_raw_ratio": 0.09,
+        "contains_entry_point": false
+      }
+    ],
+    "entropy": {
+      "overall": 6.3659,
+      "max_section": 6.1511,
+      "max_section_name": ".rsrc",
+      "max_non_resource": 5.557,
+      "mean_section": 3.3161,
+      "max_executable": 5.557,
+      "high_entropy_sections": []
+    },
+    "imports": {
+      "dll_count": 8,
+      "import_count": 44,
+      "by_ordinal": 0,
+      "dlls": [
+        {
+          "name": "python314.dll",
+          "count": 1,
+          "delay_load": false,
+          "functions": [
+            "Py_Main"
+          ]
+        },
+        {
+          "name": "VCRUNTIME140.dll",
+          "count": 5,
+          "delay_load": false,
+          "functions": [
+            "__C_specific_handler",
+            "__current_exception",
+            "__current_exception_context",
+            "memset",
+            "memcpy"
+          ]
+        },
+        {
+          "name": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "count": 18,
+          "delay_load": false,
+          "functions": [
+            "_initialize_onexit_table",
+            "_register_onexit_function",
+            "_crt_atexit",
+            "terminate",
+            "_get_initial_wide_environment",
+            "_register_thread_local_exe_atexit_callback",
+            "_initialize_wide_environment",
+            "_configure_wide_argv",
+            "_initterm",
+            "_set_app_type",
+            "_seh_filter_exe",
+            "_c_exit",
+            "_cexit",
+            "__p___wargv",
+            "__p___argc",
+            "_initterm_e",
+            "_exit",
+            "exit"
+          ]
+        },
+        {
+          "name": "api-ms-win-crt-math-l1-1-0.dll",
+          "count": 1,
+          "delay_load": false,
+          "functions": [
+            "__setusermatherr"
+          ]
+        },
+        {
+          "name": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "count": 2,
+          "delay_load": false,
+          "functions": [
+            "__p__commode",
+            "_set_fmode"
+          ]
+        },
+        {
+          "name": "api-ms-win-crt-locale-l1-1-0.dll",
+          "count": 1,
+          "delay_load": false,
+          "functions": [
+            "_configthreadlocale"
+          ]
+        },
+        {
+          "name": "api-ms-win-crt-heap-l1-1-0.dll",
+          "count": 1,
+          "delay_load": false,
+          "functions": [
+            "_set_new_mode"
+          ]
+        },
+        {
+          "name": "KERNEL32.dll",
+          "count": 15,
+          "delay_load": false,
+          "functions": [
+            "GetCurrentThreadId",
+            "GetCurrentProcessId",
+            "QueryPerformanceCounter",
+            "IsProcessorFeaturePresent",
+            "TerminateProcess",
+            "GetCurrentProcess",
+            "SetUnhandledExceptionFilter",
+            "UnhandledExceptionFilter",
+            "RtlVirtualUnwind",
+            "RtlLookupFunctionEntry",
+            "RtlCaptureContext",
+            "InitializeSListHead",
+            "IsDebuggerPresent",
+            "GetSystemTimeAsFileTime",
+            "GetModuleHandleW"
+          ]
+        }
+      ],
+      "normalized_apis": [
+        "GetCurrentProcess",
+        "GetCurrentProcessId",
+        "GetCurrentThreadId",
+        "GetModuleHandle",
+        "GetSystemTimeAsFileTime",
+        "InitializeSListHead",
+        "IsDebuggerPresent",
+        "IsProcessorFeaturePresent",
+        "Py_Main",
+        "QueryPerformanceCounter",
+        "RtlCaptureContext",
+        "RtlLookupFunctionEntry",
+        "RtlVirtualUnwind",
+        "SetUnhandledExceptionFilter",
+        "TerminateProcess",
+        "UnhandledExceptionFilter",
+        "__C_specific_handler",
+        "__current_exception",
+        "__current_exception_context",
+        "__p___argc",
+        "__p___wargv",
+        "__p__commode",
+        "__setusermatherr",
+        "_c_exit",
+        "_cexit",
+        "_configthreadlocale",
+        "_configure_wide_argv",
+        "_crt_atexit",
+        "_exit",
+        "_get_initial_wide_environment",
+        "_initialize_onexit_table",
+        "_initialize_wide_environment",
+        "_initterm",
+        "_initterm_e",
+        "_register_onexit_function",
+        "_register_thread_local_exe_atexit_callback",
+        "_seh_filter_exe",
+        "_set_app_type",
+        "_set_fmode",
+        "_set_new_mode",
+        "exit",
+        "memcpy",
+        "memset",
+        "terminate"
+      ],
+      "suspicious": [
+        {
+          "api": "QueryPerformanceCounter",
+          "normalized": "QueryPerformanceCounter",
+          "dll": "KERNEL32.dll",
+          "tag": "Anti-analysis",
+          "context_only": true
+        },
+        {
+          "api": "IsDebuggerPresent",
+          "normalized": "IsDebuggerPresent",
+          "dll": "KERNEL32.dll",
+          "tag": "Anti-analysis",
+          "context_only": true
+        },
+        {
+          "api": "GetModuleHandleW",
+          "normalized": "GetModuleHandle",
+          "dll": "KERNEL32.dll",
+          "tag": "Dynamic resolution",
+          "context_only": true
+        }
+      ],
+      "suspicious_count": 0
+    },
+    "exports": {
+      "count": 0,
+      "names": [],
+      "dll_name": null
+    },
+    "strings": {
+      "total": 522,
+      "meaningful": 311,
+      "meaningful_per_kb": 2.995,
+      "ascii": 496,
+      "unicode": 26,
+      "density_per_kb": 5.027,
+      "suspicious": [
+        {
+          "type": "URL",
+          "value": "http://schemas.microsoft.com/SMI/2016/WindowsSettings"
+        },
+        {
+          "type": "URL",
+          "value": "http://www.microsoft.com/pkiops/crl/Microsoft%20ID%20Verified%20CS%20EOC%20CA%2002.crl0"
+        },
+        {
+          "type": "URL",
+          "value": "http://www.microsoft.com/pkiops/certs/Microsoft%20ID%20Verified%20CS%20EOC%20CA%2002.crt0-"
+        },
+        {
+          "type": "URL",
+          "value": "http://oneocsp.microsoft.com/ocsp0f"
+        },
+        {
+          "type": "URL",
+          "value": "http://www.microsoft.com/pkiops/Docs/Repository.htm0"
+        },
+        {
+          "type": "URL",
+          "value": "http://www.microsoft.com/pkiops/crl/Microsoft%20ID%20Verified%20Code%20Signing%20PCA%202021.crl0"
+        },
+        {
+          "type": "URL",
+          "value": "http://www.microsoft.com/pkiops/certs/Microsoft%20ID%20Verified%20Code%20Signing%20PCA%202021.crt0-"
+        },
+        {
+          "type": "URL",
+          "value": "http://oneocsp.microsoft.com/ocsp0"
+        },
+        {
+          "type": "URL",
+          "value": "http://www.microsoft.com/pkiops/crl/Microsoft%20Identity%20Verification%20Root%20Certificate%20Authority%202020.crl0"
+        },
+        {
+          "type": "URL",
+          "value": "http://www.microsoft.com/pkiops/certs/Microsoft%20Identity%20Verification%20Root%20Certificate%20Authority%202020.crt0-"
+        },
+        {
+          "type": "URL",
+          "value": "http://www.microsoft.com/pkiops/certs/Microsoft%20Identity%20Verification%20Root%20Certificate%20Authority%202020.crt0"
+        },
+        {
+          "type": "URL",
+          "value": "http://www.microsoft.com/pkiops/crl/Microsoft%20Public%20RSA%20Timestamping%20CA%202020.crl0y"
+        },
+        {
+          "type": "URL",
+          "value": "http://www.microsoft.com/pkiops/certs/Microsoft%20Public%20RSA%20Timestamping%20CA%202020.crt0"
+        }
+      ],
+      "suspicious_count": 13,
+      "sample": [
+        "!This program cannot be run in DOS mode.",
+        ",RichWv",
+        "`.rdata",
+        "@.data",
+        ".pdata",
+        "@.rsrc",
+        "@.reloc",
+        "u0HcH<",
+        "D:\\a\\1\\b\\bin\\amd64\\python.pdb",
+        ".text$lp00python",
+        ".text$mn",
+        ".text$mn$00",
+        ".text$x",
+        ".idata$5",
+        ".00cfg",
+        ".CRT$XCA",
+        ".CRT$XCAA",
+        ".CRT$XCZ",
+        ".CRT$XIA",
+        ".CRT$XIAA",
+        ".CRT$XIAC",
+        ".CRT$XIZ",
+        ".CRT$XPA",
+        ".CRT$XPZ",
+        ".CRT$XTA",
+        ".CRT$XTZ",
+        ".rdata",
+        ".rdata$voltmd",
+        ".rdata$zzzdbg",
+        ".rtc$IAA",
+        ".rtc$IZZ",
+        ".rtc$TAA",
+        ".rtc$TZZ",
+        ".xdata",
+        ".idata$2",
+        ".idata$3",
+        ".idata$4",
+        ".idata$6",
+        ".pdata",
+        ".rsrc$01",
+        ".rsrc$02",
+        "Py_Main",
+        "python314.dll",
+        "__C_specific_handler",
+        "__current_exception",
+        "__current_exception_context",
+        "memset",
+        "VCRUNTIME140.dll",
+        "_seh_filter_exe",
+        "_set_app_type",
+        "__setusermatherr",
+        "_configure_wide_argv",
+        "_initialize_wide_environment",
+        "_get_initial_wide_environment",
+        "_initterm",
+        "_initterm_e",
+        "_set_fmode",
+        "__p___argc",
+        "__p___wargv",
+        "_cexit"
+      ]
+    },
+    "overlay": {
+      "present": true,
+      "offset": 92160,
+      "offset_hex": "0x16800",
+      "size": 14168,
+      "size_human": "13.8 KB",
+      "ratio": 0.1332,
+      "entropy": 7.5214,
+      "is_signature": true
+    },
+    "version_info": {
+      "CompanyName": "Python Software Foundation",
+      "FileDescription": "Python",
+      "ProductName": "Python",
+      "OriginalFilename": "python.exe",
+      "InternalName": "Python Console",
+      "FileVersion": "3.14.0",
+      "ProductVersion": "3.14.0",
+      "LegalCopyright": "Copyright \u00a9 2001 Python Software Foundation. Copyright \u00a9 2000 BeOpen.com. Copyright \u00a9 1995-2001 CNRI. Copyright \u00a9 1991-1995 SMC."
+    },
+    "resources": {
+      "count": 4,
+      "types": [
+        "ICON",
+        "GROUP_ICON",
+        "VERSION",
+        "MANIFEST"
+      ]
+    },
+    "parser_warnings": [
+      "Resource size 0x1a3e1 exceeds file size 0x19f58, overlapping resources found."
+    ]
+  },
+  "findings": [],
+  "context_notes": [
+    "Authenticode signature directory present (14,168 bytes). Presence only - the signature was not verified.",
+    "Debug PDB path: D:\\a\\1\\b\\bin\\amd64\\python.pdb",
+    "Low-signal APIs (context only): QueryPerformanceCounter, IsDebuggerPresent, GetModuleHandleW"
+  ],
+  "risk": {
+    "score": 0,
+    "level": "LOW",
+    "points": 0.0,
+    "max_points": 85,
+    "breakdown": [
+      {
+        "bucket": "identity",
+        "label": "Identity mismatch",
+        "category": "Identity",
+        "weight": 10,
+        "findings": [],
+        "points": 0.0,
+        "uncapped": 0.0,
+        "capped": false,
+        "formula": "no evidence"
+      },
+      {
+        "bucket": "section",
+        "label": "RWX / section anomaly",
+        "category": "Section",
+        "weight": 20,
+        "findings": [],
+        "points": 0.0,
+        "uncapped": 0.0,
+        "capped": false,
+        "formula": "no evidence"
+      },
+      {
+        "bucket": "high_entropy",
+        "label": "High entropy",
+        "category": "Entropy-Content",
+        "weight": 15,
+        "findings": [],
+        "points": 0.0,
+        "uncapped": 0.0,
+        "capped": false,
+        "formula": "no evidence"
+      },
+      {
+        "bucket": "entropy_content",
+        "label": "Entropy-content contradiction",
+        "category": "Entropy-Content",
+        "weight": 15,
+        "findings": [],
+        "points": 0.0,
+        "uncapped": 0.0,
+        "capped": false,
+        "formula": "no evidence"
+      },
+      {
+        "bucket": "api",
+        "label": "API combination",
+        "category": "API",
+        "weight": 15,
+        "findings": [],
+        "points": 0.0,
+        "uncapped": 0.0,
+        "capped": false,
+        "formula": "no evidence"
+      },
+      {
+        "bucket": "structural",
+        "label": "Structural anomaly",
+        "category": "Structural",
+        "weight": 10,
+        "findings": [],
+        "points": 0.0,
+        "uncapped": 0.0,
+        "capped": false,
+        "formula": "no evidence"
+      }
+    ],
+    "severity_counts": {
+      "HIGH": 0,
+      "MEDIUM": 0,
+      "LOW": 0
+    },
+    "categories_hit": [],
+    "formula": "round(100 x 0.0 / 85) = 0",
+    "levels": [
+      {
+        "label": "LOW",
+        "range": "0-29"
+      },
+      {
+        "label": "MEDIUM",
+        "range": "30-59"
+      },
+      {
+        "label": "HIGH",
+        "range": "60-79"
+      },
+      {
+        "label": "CRITICAL",
+        "range": "80-100"
+      }
+    ]
+  },
+  "ml": {
+    "raw_score": 0.1511,
+    "calibrated_probability": 0.0693,
+    "isotonic_probability": 0.0484,
+    "reported_percent": 7,
+    "method": "sigmoid (Platt scaling)",
+    "verdict": "likely benign",
+    "vector": {
+      "file_size_log10": 5.0266,
+      "num_sections": 6,
+      "max_entropy": 5.557,
+      "mean_entropy": 3.3161,
+      "overall_entropy": 6.3659,
+      "imports_log": 3.8067,
+      "dll_count": 8,
+      "strings_per_kb_log": 1.7962,
+      "exports_log": 0.0,
+      "has_signature": 1,
+      "has_resources": 1,
+      "has_debug": 1,
+      "is_dll": 0,
+      "overlay_ratio": 0.0,
+      "suspicious_api_count": 0,
+      "c_identity": 0.0,
+      "c_section": 0.0,
+      "c_high_entropy": 0.0,
+      "c_entropy_content": 0.0,
+      "c_api": 0.0,
+      "c_structural": 0.0,
+      "rwx_count": 0,
+      "ep_unusual": 0,
+      "n_findings": 0
+    },
+    "contributions": [
+      {
+        "feature": "imports_log",
+        "label": "Imported APIs (log)",
+        "value": 3.8067,
+        "benign_median": 4.736,
+        "delta": 0.0473
+      },
+      {
+        "feature": "file_size_log10",
+        "label": "File size (log10 bytes)",
+        "value": 5.0266,
+        "benign_median": 5.928,
+        "delta": 0.0447
+      },
+      {
+        "feature": "max_entropy",
+        "label": "Max section entropy",
+        "value": 5.557,
+        "benign_median": 6.549,
+        "delta": 0.0304
+      },
+      {
+        "feature": "strings_per_kb_log",
+        "label": "Strings per KB (log)",
+        "value": 1.7962,
+        "benign_median": 2.578,
+        "delta": 0.0302
+      },
+      {
+        "feature": "suspicious_api_count",
+        "label": "Suspicious API count",
+        "value": 0,
+        "benign_median": 2.0,
+        "delta": -0.0063
+      },
+      {
+        "feature": "mean_entropy",
+        "label": "Mean section entropy",
+        "value": 3.3161,
+        "benign_median": 5.093,
+        "delta": 0.0042
+      },
+      {
+        "feature": "overall_entropy",
+        "label": "Whole-file entropy",
+        "value": 6.3659,
+        "benign_median": 6.133,
+        "delta": -0.0032
+      },
+      {
+        "feature": "n_findings",
+        "label": "Number of findings",
+        "value": 0,
+        "benign_median": 1.0,
+        "delta": 0.0013
+      }
+    ],
+    "model_trained_at": "2026-10-07 17:47 UTC",
+    "demo_model": true
+  },
+  "iocs": {
+    "hashes": {
+      "SHA-256": "467014615a5255aca450ae88100dd2caf887da87657f00e3c2171ec44a685aec",
+      "SHA-1": "588164bd719f6ff5daa7ddeda50a0a2beee49378",
+      "MD5": "ea9864af41a0640d7c5e01932c585a2e",
+      "Imphash": "a0fad384db41cc8b86fa51996bb88ac7"
+    },
+    "network": [
+      "http://oneocsp.microsoft.com/ocsp0",
+      "http://oneocsp.microsoft.com/ocsp0f",
+      "http://schemas.microsoft.com/SMI/2016/WindowsSettings",
+      "http://www.microsoft.com/pkiops/Docs/Repository.htm0",
+      "http://www.microsoft.com/pkiops/certs/Microsoft%20ID%20Verified%20CS%20EOC%20CA%2002.crt0-",
+      "http://www.microsoft.com/pkiops/certs/Microsoft%20ID%20Verified%20Code%20Signing%20PCA%202021.crt0-",
+      "http://www.microsoft.com/pkiops/certs/Microsoft%20Identity%20Verification%20Root%20Certificate%20Authority%202020.crt0",
+      "http://www.microsoft.com/pkiops/certs/Microsoft%20Identity%20Verification%20Root%20Certificate%20Authority%202020.crt0-",
+      "http://www.microsoft.com/pkiops/certs/Microsoft%20Public%20RSA%20Timestamping%20CA%202020.crt0",
+      "http://www.microsoft.com/pkiops/crl/Microsoft%20ID%20Verified%20CS%20EOC%20CA%2002.crl0",
+      "http://www.microsoft.com/pkiops/crl/Microsoft%20ID%20Verified%20Code%20Signing%20PCA%202021.crl0",
+      "http://www.microsoft.com/pkiops/crl/Microsoft%20Identity%20Verification%20Root%20Certificate%20Authority%202020.crl0",
+      "http://www.microsoft.com/pkiops/crl/Microsoft%20Public%20RSA%20Timestamping%20CA%202020.crl0y"
+    ],
+    "host": [],
+    "commands": [],
+    "other": [],
+    "apis": []
+  },
+  "summary": "No PE contradictions were detected. The file's structure, imports and identity are consistent with ordinary compiled software. Static triage cannot rule out malicious behaviour that is only visible at run time.",
+  "stages": [
+    {
+      "stage": "Ingest",
+      "detail": "SHA-256 467014615a5255ac..., 103.8 KB"
+    },
+    {
+      "stage": "Extract",
+      "detail": "6 sections, 44 imports, 522 strings"
+    },
+    {
+      "stage": "Contradict",
+      "detail": "0 findings from 5 rule categories"
+    },
+    {
+      "stage": "Score",
+      "detail": "0.0 / 85 pts -> 0"
+    },
+    {
+      "stage": "Calibrate",
+      "detail": "RF 0.15 -> calibrated 0.07"
+    },
+    {
+      "stage": "Report",
+      "detail": "Risk LOW, P(malware) 7%"
+    }
+  ],
+  "elapsed_ms": 272
+}

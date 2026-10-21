@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block title %}Analyze{% endblock %}
+{% block content %}
+<section class="hero">
+  <div>
+    <div class="rhead"><div><div class="eyebrow">Explainable static malware triage</div></div></div>
+    <h1>Does this file's structure<br>agree with what it <span>claims to be?</span></h1>
+    <p class="lead">Masquerade parses a Windows PE file without running it, looks for properties that contradict
+      each other or the file's apparent identity, turns every contradiction into named and scored evidence,
+      and reports a 0–100 risk score next to a calibrated malware probability.</p>
+    <div class="points">
+      <div><b>01</b>Hash &amp; parse headers, sections, imports, strings and overlay with <code>pefile</code></div>
+      <div><b>02</b>Check five contradiction categories: identity, section, entropy-content, API, structural</div>
+      <div><b>03</b>Explain the score: every finding shows its raw evidence and why it matters</div>
+      <div><b>04</b>Separate raw Random Forest confidence from a calibrated probability</div>
+    </div>
+  </div>
+
+  <div class="card upload-card">
+    <div class="card-h"><h3>Upload PE sample</h3><span class="aside">.exe · .dll · .sys · .scr · any PE</span></div>
+    <div class="card-b">
+      <form id="upload-form" action="{{ url_for('main.analyze') }}" method="post" enctype="multipart/form-data">
+        <label id="drop" class="drop">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M12 17v-6"/><path d="m9 13 3-3 3 3"/></svg>
+          <div class="t1">Drop a PE file here or click to browse</div>
+          <div class="t2">Max {{ (config.MAX_CONTENT_LENGTH // 1048576) }} MB · stored locally with a non-executable <code>.sample</code> suffix</div>
+          <div class="picked mono"></div>
+          <input type="file" name="file">
+        </label>
+        <div class="row">
+          <button class="btn primary lg" type="submit">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            Analyze statically
+          </button>
+          <div class="note">The file is read as bytes and parsed.<br>It is never executed, loaded or passed to a subprocess.</div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<div class="card">
+  <div class="pipe">
+    <div class="st"><div class="n">01</div><div class="t">Ingest</div><div class="d">SHA-256, MD5, size, magic</div></div>
+    <div class="st"><div class="n">02</div><div class="t">Extract</div><div class="d">pefile: headers, sections, imports, strings</div></div>
+    <div class="st"><div class="n">03</div><div class="t">Contradict</div><div class="d">Rules in five categories</div></div>
+    <div class="st"><div class="n">04</div><div class="t">Score</div><div class="d">Weighted evidence → 0–100</div></div>
+    <div class="st"><div class="n">05</div><div class="t">Calibrate</div><div class="d">Random Forest + Platt scaling</div></div>
+    <div class="st"><div class="n">06</div><div class="t">Report</div><div class="d">Risk, evidence, IoCs, JSON</div></div>
+  </div>
+</div>
+
+<div class="section-title">No sample at hand? Use a built-in one</div>
+<div class="samples">
+  <div class="card sample">
+    <span class="lab demo">Demo / illustrative</span>
+    <h3>Demo Sample</h3>
+    <p>A hand-written feature record modelled on a disguised, packed injector
+      (<code>Q3_financial_report.pdf.exe</code>). No file is involved; the record runs through the real
+      contradiction engine, scoring and ML stages. Hashes and IoCs are placeholders from reserved ranges.</p>
+    <form action="{{ url_for('main.analyze') }}" method="post"><input type="hidden" name="sample" value="demo">
+      <button class="btn" type="submit">Load demo analysis →</button></form>
+  </div>
+  <div class="card sample">
+    <span class="lab fixture">Synthetic test PE · real parsing</span>
+    <h3>Synthetic contradiction fixture</h3>
+    <p>A non-functional PE32 image built in memory (its only instruction is <code>RET</code>) with an RWX
+      high-entropy section, an injection-style import table and a double extension. Exercises the real
+      <code>pefile</code> extractor; nothing is written to disk.</p>
+    <form action="{{ url_for('main.analyze') }}" method="post"><input type="hidden" name="sample" value="synthetic">
+      <button class="btn" type="submit">Analyze fixture →</button></form>
+  </div>
+  <div class="card sample">
+    <span class="lab real">Real benign PE</span>
+    <h3>Benign reference: {{ benign_name }}</h3>
+    <p>The local Python interpreter binary - a genuine, benign Windows executable present on any machine
+      running this app. It is read from disk and parsed only. Useful as a clean baseline for comparison.</p>
+    <form action="{{ url_for('main.analyze') }}" method="post"><input type="hidden" name="sample" value="benign">
+      <button class="btn" type="submit">Analyze benign reference →</button></form>
+  </div>
+</div>
+
+{% if recent %}
+<div class="section-title">Recent reports</div>
+<div class="card">
+  <div class="tbl-wrap">
+  <table class="tbl">
+    <thead><tr><th>Report</th><th>File</th><th>Source</th><th>Risk</th><th class="right">Score</th><th class="right">P(malware)</th><th>Analyzed</th></tr></thead>
+    <tbody>
+    {% for r in recent %}
+      <tr>
+        <td class="mono"><a href="{{ url_for('main.report', report_id=r.id) }}">{{ r.id }}</a></td>
+        <td class="mono break">{{ r.name }}</td>
+        <td class="dim">{% if r.demo %}Demo (illustrative){% elif r.source == 'synthetic' %}Synthetic fixture{% elif r.source == 'benign-reference' %}Benign reference{% else %}Upload{% endif %}</td>
+        <td>{% if r.valid_pe %}<span class="sev lvl {{ r.level }}">{{ r.level }}</span>{% else %}<span class="muted">Not a PE</span>{% endif %}</td>
+        <td class="right mono">{{ r.score if r.valid_pe else '-' }}</td>
+        <td class="right mono">{{ (r.prob ~ '%') if r.valid_pe else '-' }}</td>
+        <td class="dim nowrap">{{ r.at }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+</div>
+{% endif %}
+{% endblock %}

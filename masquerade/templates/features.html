@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Features {{ r.id }}{% endblock %}
+{% block content %}
+{% if r.demo %}
+<div class="banner"><span class="tag">DEMO / ILLUSTRATIVE</span><div>This feature record was written by hand for demonstration. It does not describe a real file.</div></div>
+{% endif %}
+<div class="rhead">
+  <div style="min-width:0">
+    <div class="eyebrow">Stage 02 · pefile extractor output · schema {{ payload.schema or 'n/a' }}</div>
+    <h1>{{ r.file.name }}</h1>
+    <div class="meta">
+      <span><b>SHA-256</b><span class="mono">{{ r.file.sha256 }}</span></span>
+      <span><b>Report</b><span class="mono">{{ r.id }}</span></span>
+    </div>
+  </div>
+  <div class="actions">
+    {% if r.valid_pe %}<a class="btn" href="{{ url_for('main.report', report_id=r.id) }}">← Back to report</a>{% endif %}
+    <a class="btn primary" href="{{ url_for('main.features_json', report_id=r.id) }}">Download features JSON</a>
+  </div>
+</div>
+
+{% if r.valid_pe %}
+<div class="grid">
+  {% set f = payload %}
+  {% for k, v, sub in [
+      ('PE type', f.pe.type ~ ' · ' ~ f.pe.arch, f.pe.magic ~ ' · ' ~ f.pe.subsystem),
+      ('Sections', f.sections|length, (f.sections|selectattr('writable')|selectattr('executable')|list|length) ~ ' writable+executable'),
+      ('Max entropy', '%.3f'|format(f.entropy.max_section), 'in ' ~ (f.entropy.max_section_name or '-')),
+      ('Imports', f.imports.import_count, f.imports.dll_count ~ ' DLLs · ' ~ f.imports.suspicious_count ~ ' notable APIs'),
+      ('Strings', f.strings.total, f.strings.meaningful ~ ' with ≥ 8 chars'),
+      ('Overlay', f.overlay.size_human if f.overlay.present else 'none', ('entropy ' ~ f.overlay.entropy) if f.overlay.present else 'no appended data')
+    ] %}
+  <div class="card" style="grid-column: span 2"><div class="card-b">
+    <div class="muted" style="font-size:11px; text-transform:uppercase; letter-spacing:.08em">{{ k }}</div>
+    <div style="font-size:20px; font-weight:600">{{ v }}</div>
+    <div class="dim" style="font-size:12px">{{ sub }}</div>
+  </div></div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<div class="json-layout">
+  <div class="card json-nav">
+    <div class="card-h"><h3>Top-level keys</h3></div>
+    <div class="card-b" style="padding:8px">
+      {% for k, v in payload.items() %}
+        <a href="#json-{{ k }}">{{ k }}<span>{% if v is mapping %}{ {{ v|length }} }{% elif v is iterable and v is not string %}[{{ v|length }}]{% else %}·{% endif %}</span></a>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="card" style="min-width:0">
+    <div class="card-h"><h3>Raw feature record (JSON)</h3><span class="aside">{{ pretty|length|num }} chars · {{ pretty.count('\n') + 1 }} lines</span></div>
+    <pre class="json">{{ pretty }}</pre>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,358 @@
+{% extends "base.html" %}
+{% block title %}Report {{ r.id }}{% endblock %}
+{% set risk = r.risk %}{% set ml = r.ml %}
+{% set lvl_color = {'LOW': 'var(--good)', 'MEDIUM': 'var(--warn)', 'HIGH': 'var(--serious)', 'CRITICAL': 'var(--crit)'} %}
+{% block content %}
+
+{% if r.demo %}
+<div class="banner"><span class="tag">DEMO / ILLUSTRATIVE ANALYSIS</span>
+  <div><strong>Synthetic feature record - not a real file.</strong> Feature values were written by hand to illustrate
+    a disguised, packed injector. Hashes are digests of a label string and network indicators use reserved
+    documentation ranges (RFC 5737 / RFC 2606). Findings, scores and probabilities below are computed by the real
+    pipeline from those values.</div></div>
+{% elif r.synthetic_fixture %}
+<div class="banner info"><span class="tag">SYNTHETIC TEST PE</span>
+  <div><strong>Real parsing of a harmless, generated fixture.</strong> This PE32 image was assembled in memory by
+    Masquerade to exercise every contradiction category; its only instruction is <code>RET</code> and it calls none of
+    its imports. All values were extracted by <code>pefile</code>.</div></div>
+{% endif %}
+
+<div class="rhead">
+  <div style="min-width:0">
+    <div class="eyebrow">Masquerade triage report · {{ r.id }}</div>
+    <h1 class="mono" style="font-family:var(--font)">{{ r.file.name }}</h1>
+    <div class="meta">
+      <span><b>SHA-256</b><span class="mono">{{ r.file.sha256 }}</span></span>
+      <span><b>Size</b>{{ r.file.size|num }} B ({{ r.file.size_human }})</span>
+      <span><b>Analyzed</b>{{ r.analyzed_at }}</span>
+      <span><b>Pipeline</b>{{ r.elapsed_ms }} ms</span>
+    </div>
+  </div>
+  <div class="actions">
+    <a class="btn" href="{{ url_for('main.features', report_id=r.id) }}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 3H6a2 2 0 0 0-2 2v4l-2 3 2 3v4a2 2 0 0 0 2 2h2M16 3h2a2 2 0 0 1 2 2v4l2 3-2 3v4a2 2 0 0 1-2 2h-2"/></svg>
+      Raw features</a>
+    <a class="btn" href="{{ url_for('main.report_json', report_id=r.id) }}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14"/></svg>
+      Report JSON</a>
+    <a class="btn primary" href="{{ url_for('main.index') }}">New analysis</a>
+  </div>
+</div>
+
+<!-- ============ Row 1: verdict + probability ============ -->
+<div class="grid">
+  <div class="card c8">
+    <div class="card-h"><h3>Triage verdict</h3><span class="step">04 · SCORE</span>
+      <span class="aside">{{ risk.categories_hit|length }} of 5 contradiction categories triggered</span></div>
+    <div class="verdict" style="flex:1">
+      <div class="gauge-wrap">
+        <svg viewBox="0 0 260 140" aria-label="Risk gauge {{ risk.score }} of 100">
+          {% for a, b, c in [(0, 29.4, 'var(--good)'), (30.4, 59.4, 'var(--warn)'), (60.4, 79.4, 'var(--serious)'), (80.4, 100, 'var(--crit)')] %}
+            <path d="{{ gauge_arc(a, b) }}" stroke="{{ c }}" stroke-opacity=".22" stroke-width="16" fill="none"/>
+          {% endfor %}
+          {% if risk.score > 0 %}
+          <path d="{{ gauge_arc(0, risk.score) }}" stroke="{{ lvl_color[risk.level] }}" stroke-width="16" fill="none"/>
+          {% endif %}
+          <text x="30" y="138" text-anchor="middle" fill="#717d8d" font-size="10.5" font-family="Consolas, monospace">0</text>
+          <text x="230" y="138" text-anchor="middle" fill="#717d8d" font-size="10.5" font-family="Consolas, monospace">100</text>
+        </svg>
+        <div class="gauge-score">{{ risk.score }}<small>/100</small></div>
+        <div class="gauge-lbl"><span class="sev lvl big {{ risk.level }}">{{ risk.level }} RISK</span></div>
+        <div class="gauge-scale"><span>LOW 0–29</span><span>MED 30–59</span><span>HIGH 60–79</span><span>CRIT 80+</span></div>
+      </div>
+      <div class="verdict-r">
+        <p class="summary">{{ r.summary }}</p>
+        <div class="kv-row">
+          <div class="kv"><div class="k">Contradictions</div><div class="v">{{ r.findings|length }}
+            <small>{{ risk.severity_counts.HIGH }}H · {{ risk.severity_counts.MEDIUM }}M · {{ risk.severity_counts.LOW }}L</small></div></div>
+          <div class="kv"><div class="k">PE type</div><div class="v">{{ f.pe.type }} <small>{{ f.pe.arch }} · {{ f.pe.magic }}</small></div></div>
+          <div class="kv"><div class="k">Max entropy</div><div class="v">{{ '%.2f'|format(f.entropy.max_section) }} <small>{{ f.entropy.max_section_name or '-' }}</small></div></div>
+          <div class="kv"><div class="k">Imports</div><div class="v">{{ f.imports.import_count }} <small>from {{ f.imports.dll_count }} DLLs</small></div></div>
+        </div>
+        <div style="display:flex; gap:6px; flex-wrap:wrap">
+          {% for code, name in [('A','Identity'),('B','Section'),('C','Entropy-Content'),('D','API'),('E','Structural')] %}
+            {% set hit = name in risk.categories_hit %}
+            <span class="cat" style="{{ '' if hit else 'opacity:.45' }}"><b>{{ code }}</b>{{ name }} {{ '✓' if hit else '–' }}</span>
+          {% endfor %}
+        </div>
+        <div style="border-top:1px solid var(--line); padding-top:14px; margin-top:auto">
+          <div class="muted" style="font-size:11px; letter-spacing:.08em; text-transform:uppercase; margin-bottom:10px">Severity distribution</div>
+        {% set mx = [risk.severity_counts.HIGH, risk.severity_counts.MEDIUM, risk.severity_counts.LOW, 1]|max %}
+        <div class="sevbars">
+          {% for s, c in [('HIGH','var(--crit)'), ('MEDIUM','var(--serious)'), ('LOW','var(--warn)')] %}
+          <div class="r"><span class="sev {{ s }}">{{ s }}</span>
+            <div class="t"><i style="width: {{ (risk.severity_counts[s] / mx * 100)|round(1) }}%; background: {{ c }}"></i></div>
+            <span class="n">{{ risk.severity_counts[s] }}</span></div>
+          {% endfor %}
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card c4">
+    <div class="card-h"><h3>Calibrated malware probability</h3><span class="step">05 · CALIBRATE</span></div>
+    <div class="card-b" style="display:flex; flex-direction:column; gap:14px">
+      <div class="prob">
+        <div class="step-box"><div class="k">Raw RF score</div><div class="v">{{ '%.2f'|format(ml.raw_score) }}</div></div>
+        <svg class="arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-5-5 5 5-5 5"/></svg>
+        <div class="step-box"><div class="k">Calibrated</div><div class="v">{{ '%.2f'|format(ml.calibrated_probability) }}</div></div>
+      </div>
+      <div class="prob"><div class="step-box final">
+        <div class="k">Reported malware probability</div>
+        <div class="v">{{ ml.reported_percent }}%</div>
+        <div class="dim" style="font-size:12.5px">Model reading: {{ ml.verdict }}</div>
+      </div></div>
+      <div class="ptrack" data-tip="Raw vs calibrated|Hollow orange = raw RF score {{ '%.3f'|format(ml.raw_score) }}<br>Solid blue = calibrated {{ '%.3f'|format(ml.calibrated_probability) }}">
+        <div class="bar"></div><div class="half"></div>
+        <div class="mk raw" style="left: {{ (ml.raw_score * 100)|round(1) }}%"></div>
+        <div class="mk cal" style="left: {{ (ml.calibrated_probability * 100)|round(1) }}%"></div>
+        <div class="ticks"><span>0.0</span><span>0.5</span><span>1.0</span></div>
+      </div>
+      <div class="legend" style="margin-top:4px"><span><i class="box" style="background:transparent;border:2px solid var(--series-2);border-radius:50%"></i>Raw Random Forest</span>
+        <span><i class="box" style="background:var(--accent);border-radius:50%"></i>Calibrated ({{ ml.method.split(' ')[0] }})</span></div>
+      <p class="muted" style="font-size:12px; margin:0">Only the calibrated value is reported as a probability. Model trained on a
+        <b class="dim">synthetic demo feature set</b> - see <a href="{{ url_for('main.model') }}">Model &amp; Calibration</a>; it does not represent real-world performance.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ============ Row 2: findings + breakdown ============ -->
+<div class="grid">
+  <div class="card c8">
+    <div class="card-h"><h3>Contradiction findings</h3><span class="step">03 · CONTRADICT</span>
+      <span class="aside">Each finding is a lead to investigate, not a verdict</span></div>
+    <div class="card-b flush">
+      {% if r.findings %}
+      <ul class="findings">
+        {% for x in r.findings %}
+        <li class="finding {{ x.severity }}">
+          <div class="top">
+            <span class="sev {{ x.severity }}">{{ x.severity }}</span>
+            <span class="name">{{ x.name }}</span>
+            <span class="cat"><b>{{ x.category_code }}</b>{{ x.category }}</span>
+            <span class="fid">{{ x.id }}</span>
+            <span class="pts">+{{ '%.1f'|format(x.applied_points) }} <small>pts applied · nominal {{ x.score }}</small></span>
+          </div>
+          <p class="expl">{{ x.explanation }}</p>
+          <div class="evidence">
+            {% for k, v in x.evidence.items() %}<div class="ev {{ 'wide' if (v|string|length) > 34 }}"><span class="k">{{ k }}</span><span class="v">{{ v }}</span></div>{% endfor %}
+          </div>
+          <details class="why">
+            <summary>Why is this a contradiction?</summary>
+            <div class="why-b">
+              <p>{{ x.why }}</p>
+              <p class="muted" style="font-size:12px">Bucket <b class="dim">{{ buckets[x.bucket].label }}</b> (weight {{ buckets[x.bucket].weight }}) ×
+                severity factor {{ {'HIGH': '1.0', 'MEDIUM': '0.6', 'LOW': '0.3'}[x.severity] }} = {{ x.score }} nominal points.
+                {% if x.applied_points < x.score %}Reduced to {{ x.applied_points }} because stronger evidence already fills this bucket.{% endif %}
+                {% if x.attack %}<br>MITRE ATT&amp;CK: <span class="attack">{{ x.attack }}</span>{% endif %}</p>
+            </div>
+          </details>
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <div class="empty"><div class="ok">No contradictions detected</div>
+        Identity, section layout, entropy, imports and header structure are mutually consistent.</div>
+      <table class="tbl" style="border-top:1px solid var(--line)">
+        <thead><tr><th>Category</th><th>Checks run</th><th>Result</th></tr></thead>
+        <tbody>
+          {% for code, name, checks in [
+            ('A', 'Identity', 'Double extension, extension vs PE content, RLO character, DLL/EXE mismatch, system-binary name, OriginalFilename'),
+            ('B', 'Section', 'RWX / W+X sections, empty executable sections, virtual vs raw size, packer names, name vs permissions'),
+            ('C', 'Entropy-Content', 'Section entropy ≥ 7.0, entropy vs imports and strings, missing import table, overlay entropy'),
+            ('D', 'API', 'Injection and hollowing chains, dynamic resolution, keylogging, download-execute, ransomware, persistence'),
+            ('E', 'Structural', 'Entry-point location, timestamp, SizeOfImage, checksum, section overlap, section count, TLS callbacks')] %}
+          <tr><td class="nowrap"><span class="cat"><b>{{ code }}</b>{{ name }}</span></td><td class="dim" style="font-size:12.5px">{{ checks }}</td>
+            <td class="nowrap"><span class="sev lvl LOW">CONSISTENT</span></td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="c4" style="display:flex; flex-direction:column; gap:18px; min-width:0">
+    <div class="card">
+      <div class="card-h"><h3>Risk score breakdown</h3><span class="aside">weights are initial, not optimal</span></div>
+      <div class="card-b">
+        <div class="bk">
+          {% for b in risk.breakdown %}
+          <div class="bk-row" data-tip="{{ b.label }}|{{ b.points }} of {{ b.weight }} pts{{ ' (capped)' if b.capped }}<br>{{ b.formula }}">
+            <div class="lbl"><span><span class="cat-code">{{ {'Identity':'A','Section':'B','Entropy-Content':'C','API':'D','Structural':'E'}[b.category] }}</span>{{ b.label }}</span>
+              <span class="val">{{ '%.1f'|format(b.points) }} / {{ b.weight }}</span></div>
+            <div class="bk-track" style="width: {{ (b.weight / 20 * 100)|round(1) }}%">
+              <div class="bk-fill" style="width: {{ (b.points / b.weight * 100)|round(1) }}%"></div></div>
+            <div class="formula">{{ b.formula if b.findings else 'no evidence' }}{{ '  → capped at ' ~ b.weight if b.capped }}</div>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="formula-box">
+          risk = round(100 × Σ points / Σ weights)<br>
+          <b>{{ risk.formula }}</b>
+          <div class="levels">{% for l in risk.levels %}<span class="sev lvl {{ l.label }}">{{ l.label }} {{ l.range }}</span>{% endfor %}</div>
+        </div>
+      </div>
+    </div>
+
+  <div class="card">
+    <div class="card-h"><h3>Calibration map</h3><span class="aside">raw RF score → probability</span></div>
+    <div class="card-b">
+      <div id="calmap-chart" class="chart" style="max-width:620px; margin:0 auto"></div>
+      <div class="legend"><span><i style="background:var(--accent)"></i>Learned Platt (sigmoid) mapping</span>
+        <span><i class="dash"></i>y = x (no change)</span>
+        <span><i class="box" style="background:var(--accent);border-radius:50%"></i>This sample</span></div>
+    </div>
+  </div>
+  </div>
+</div>
+
+<!-- ============ Row 3: sections ============ -->
+<div class="grid">
+  <div class="card c7">
+    <div class="card-h"><h3>Sections</h3><span class="step">02 · EXTRACT</span>
+      <span class="aside">{{ f.sections|length }} sections · entry point {{ f.pe.entry_point_hex }} in {{ f.pe.entry_section or 'no section' }}</span></div>
+    <div class="card-b flush tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>Name</th><th>Virtual addr</th><th class="right">Virtual size</th><th class="right">Raw size</th><th style="width:30%">Entropy</th><th>Perms</th></tr></thead>
+        <tbody>
+        {% for s in f.sections %}
+          <tr class="{{ 'flag' if (s.writable and s.executable) }}">
+            <td class="mono nowrap">{{ s.name }}{% if s.contains_entry_point %}<span class="ep-dot">EP</span>{% endif %}</td>
+            <td class="mono">{{ s.virtual_address_hex }}</td>
+            <td class="mono right">{{ s.virtual_size|num }}</td>
+            <td class="mono right">{{ s.raw_size|num }}</td>
+            <td><div class="ebar"><div class="t"><i class="{{ 'hot' if s.entropy >= 7.0 }}" style="width: {{ (s.entropy / 8 * 100)|round(1) }}%"></i></div><span>{{ '%.2f'|format(s.entropy) }}</span></div></td>
+            <td><span class="perm {{ 'rwx' if (s.writable and s.executable) }}">{{ s.perms }}</span></td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card c5">
+    <div class="card-h"><h3>Section entropy</h3><span class="aside">bits / byte · max 8.0</span></div>
+    <div class="card-b">
+      <div id="entropy-chart" class="chart"></div>
+      <div class="legend"><span><i class="box" style="background:var(--accent)"></i>Section entropy</span>
+        <span><i class="box" style="background:var(--serious)"></i>≥ 7.0 (likely compressed / encrypted)</span>
+        <span><i class="dash"></i>7.0 packed / encrypted threshold</span>
+        <span class="muted">Whole file: {{ '%.2f'|format(f.file.entropy) }}</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ Row 4: imports, IoCs, metadata ============ -->
+<div class="grid">
+  <div class="card c4">
+    <div class="card-h"><h3>Imports &amp; APIs</h3><span class="aside">{{ f.imports.import_count }} APIs · {{ f.imports.dll_count }} DLLs</span></div>
+    <div class="card-b">
+      {% set groups = {} %}
+      {% for s in f.imports.suspicious %}{% set _ = groups.setdefault(s.tag, []).append(s) %}{% endfor %}
+      {% if groups %}
+        {% for tag, items in groups.items() %}
+        <div class="apigrp"><h4>{{ tag }}</h4>
+          {% for s in items %}<span class="chip {{ 'hot' if (not s.context_only and tag == 'Memory / injection') }}" data-tip="{{ s.api }}|Imported from {{ s.dll }}{{ '<br>Context only - not scored' if s.context_only }}">{{ s.api }}</span>{% endfor %}
+        </div>
+        {% endfor %}
+      {% else %}
+        <p class="muted">No behaviourally notable APIs imported.</p>
+      {% endif %}
+      <div class="apigrp" style="margin-top:14px"><h4>Imported DLLs</h4>
+        <ul class="dll-list">
+          {% for d in f.imports.dlls[:10] %}<li><span>{{ d.name }}{{ ' (delay)' if d.delay_load }}</span><span>{{ d.count }} fn</span></li>{% endfor %}
+          {% if f.imports.dlls|length > 10 %}<li><span class="muted">+ {{ f.imports.dlls|length - 10 }} more (see raw features)</span><span></span></li>{% endif %}
+          {% if not f.imports.dlls %}<li><span class="muted">No import table</span><span></span></li>{% endif %}
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="card c4">
+    <div class="card-h"><h3>Indicators &amp; IoCs</h3><span class="aside">{{ f.strings.total|num }} strings · {{ f.strings.suspicious_count }} notable</span></div>
+    <div class="card-b ioc">
+      <h4>File hashes</h4>
+      <ul>{% for k, v in r.iocs.hashes.items() %}<li><b>{{ k }}</b>{{ v }}</li>{% endfor %}</ul>
+      {% for title, key in [('Network', 'network'), ('Host / persistence', 'host'), ('Commands', 'commands'), ('Other', 'other')] %}
+        {% if r.iocs[key] %}<h4>{{ title }}</h4><ul>{% for v in r.iocs[key][:6] %}<li>{{ v }}</li>{% endfor %}</ul>{% endif %}
+      {% endfor %}
+      {% if not (r.iocs.network or r.iocs.host or r.iocs.commands or r.iocs.other) %}
+        <h4>Strings</h4><p class="muted" style="font-size:13px">No network, persistence or command indicators found in {{ f.strings.total|num }} extracted strings.</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="card c4">
+    <div class="card-h"><h3>File &amp; header metadata</h3></div>
+    <div class="card-b">
+      <dl class="kvl">
+        <dt>Format</dt><dd>{{ f.pe.magic }} · {{ f.pe.type }} · {{ f.pe.subsystem }}</dd>
+        <dt>Machine</dt><dd>{{ f.pe.machine }}</dd>
+        <dt>Entry point</dt><dd>{{ f.pe.entry_point_hex }} ({{ f.pe.entry_section or 'outside sections' }})</dd>
+        <dt>Image base</dt><dd>{{ f.pe.image_base_hex }}</dd>
+        <dt>Compile time</dt><dd>{{ f.pe.timestamp_utc }}</dd>
+        <dt>Linker / OS</dt><dd>{{ f.pe.linker_version }} / {{ f.pe.os_version }}</dd>
+        <dt>Checksum</dt><dd>{{ f.pe.checksum|hexn }}{% if f.pe.checksum_calculated is not none %} (calc {{ f.pe.checksum_calculated|hexn }}){% endif %}</dd>
+        <dt>Overlay</dt><dd>{% if f.overlay.present %}{{ f.overlay.size_human }} at {{ f.overlay.offset_hex }} · H={{ f.overlay.entropy }}{{ ' (signature)' if f.overlay.is_signature }}{% else %}none{% endif %}</dd>
+        <dt>Signature dir</dt><dd>{{ 'present (not verified)' if f.pe.has_signature else 'absent' }}</dd>
+        <dt>Mitigations</dt><dd>{{ f.pe.dll_characteristics|join(', ') or 'none declared' }}</dd>
+        {% for k, v in f.version_info.items() %}{% if loop.index <= 4 %}<dt>{{ k }}</dt><dd>{{ v }}</dd>{% endif %}{% endfor %}
+        <dt>Imphash</dt><dd>{{ f.pe.imphash or '-' }}</dd>
+      </dl>
+    </div>
+  </div>
+</div>
+
+<!-- ============ Row 5: ML explanation ============ -->
+<div class="grid">
+  <div class="card c6">
+    <div class="card-h"><h3>What moved the model</h3><span class="aside">Δ raw RF score vs. benign median</span></div>
+    <div class="card-b">
+      <p class="muted" style="font-size:12.5px">Each row resets one input feature to the median of benign training samples and measures how much the
+        raw forest score changes. Red pushes towards malicious, green towards benign. A local sensitivity probe, not a full attribution.</p>
+      <div class="contrib">
+        {% set cmax = [ml.contributions|map(attribute='delta')|map('abs')|max if ml.contributions else 0.01, 0.01]|max %}
+        {% for c in ml.contributions %}
+        <div class="r" data-tip="{{ c.label }}|Value {{ c.value }} · benign median {{ c.benign_median }}<br>Δ raw score {{ '%+.3f'|format(c.delta) }}">
+          <span class="nm">{{ c.label }}</span>
+          <div class="t"><i class="{{ 'pos' if c.delta >= 0 else 'neg' }}" style="width: {{ (c.delta|abs / cmax * 50)|round(1) }}%"></i></div>
+          <span class="v">{{ '%+.3f'|format(c.delta) }}</span>
+        </div>
+        {% else %}
+        <p class="muted">Every feature equals the benign median.</p>
+        {% endfor %}
+      </div>
+      <p class="muted" style="font-size:12px; margin:12px 0 0">Model inputs: {{ ml.vector|length }} features (15 conventional + 9 contradiction).
+        Full vector in <a href="{{ url_for('main.report_json', report_id=r.id) }}">report JSON</a>.</p>
+    </div>
+  </div>
+  <div class="card c6">
+    <div class="card-h"><h3>Analyst context</h3><span class="aside">not scored</span></div>
+    <div class="card-b">
+      {% if r.context_notes %}
+      <ul style="margin:0; padding-left:18px; color:var(--text-2); font-size:13px">
+        {% for n in r.context_notes %}<li style="margin-bottom:4px">{{ n }}</li>{% endfor %}
+      </ul>
+      {% else %}<p class="muted">No additional context.</p>{% endif %}
+    </div>
+  </div>
+</div>
+
+<!-- ============ Row 6: pipeline trace + notes ============ -->
+<div class="grid">
+  <div class="card c12">
+    <div class="card-h"><h3>Pipeline trace</h3><span class="aside">{{ r.elapsed_ms }} ms end-to-end</span></div>
+    <div class="pipe">
+      {% for s in r.stages %}
+      <div class="st"><div class="n">0{{ loop.index }}</div><div class="t">{{ s.stage }}</div><div class="d">{{ s.detail }}</div></div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<script type="application/json" id="chart-data">{{ {
+  'sections': f.sections,
+  'calmap': model_metrics.calibration_map.sigmoid,
+  'raw': ml.raw_score, 'cal': ml.calibrated_probability
+}|tojson }}</script>
+{% endblock %}
